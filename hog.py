@@ -65,27 +65,25 @@ def other(who):
     return 1 - who
 
 def play(strategy0, strategy1, score0=0, score1=0, goal=GOAL_SCORE):
-    who = 0 #player 1 turn first
-    tmp0=0
-    tmp1=0 
+    who = 0 #player 1 turn first 
     while(score0<100 and score1<100):
         if(who==0):
-            if(select_dice==four_sided):
+            if(select_dice(score0,score1)==four_sided):
                 dice=four_sided 
             else:
                 dice=six_sided
             num_rolls=strategy0(score0,score1)
             if(num_rolls==0):
-                score0=take_turn(num_rolls,score0,dice)
-                tmp0=tmp0+score0
+                tmp0=take_turn(num_rolls,score1,dice)
+                score0+=tmp0
             else:
-                score0=roll_dice(num_rolls,dice)
-                tmp0=tmp0+score0
-            while(is_prime(tmp0+tmp1)):
-                if(tmp0<tmp1):
-                    tmp1=tmp1+score0 
+                tmp0=roll_dice(num_rolls,dice)
+                score0+=tmp0
+            while(is_prime(score0+score1)):
+                if(score0<score1):
+                    score1=score1+tmp0
                 else:
-                    tmp0=tmp0+score0 
+                    score0=score0+tmp0
             who=1-who
         else:
             if(select_dice==four_sided):
@@ -94,18 +92,18 @@ def play(strategy0, strategy1, score0=0, score1=0, goal=GOAL_SCORE):
                 dice=six_sided
             num_rolls=strategy1(score1,score0)
             if(num_rolls==0):
-                score1=take_turn(num_rolls,score1,dice)
-                tmp1=tmp1+score1
+                tmp1=take_turn(num_rolls,score1,dice)
+                score1+=tmp1
             else:
-                score1=roll_dice(num_rolls,dice)
-                tmp1=tmp1+score1 
-            while(is_prime(tmp0+tmp1)):
-                if(tmp1<tmp0):
-                    tmp0=tmp0+score1
+                tmp1=roll_dice(num_rolls,dice)
+                score1+=tmp1
+            while(is_prime(score0+score1)):
+                if(score0<score1):
+                    score1=score1+tmp1
                 else:
-                    tmp1=tmp1+score1          
+                    score0=score0+tmp1          
             who=1-who
-    return tmp0,tmp1  
+    return score0,score1 
     
 
 #######################
