@@ -92,7 +92,7 @@ def play(strategy0, strategy1, score0=0, score1=0, goal=GOAL_SCORE):
                 dice=six_sided
             num_rolls=strategy1(score1,score0)
             if(num_rolls==0):
-                tmp1=take_turn(num_rolls,score1,dice)
+                tmp1=take_turn(num_rolls,score0,dice)
                 score1+=tmp1
             else:
                 tmp1=roll_dice(num_rolls,dice)
