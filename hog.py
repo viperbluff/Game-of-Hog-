@@ -39,21 +39,8 @@ def take_turn(num_rolls,opponent_score,dice=six_sided):
         score=1+max(one,last)
         return score 
     else:
-        outcomes=0
-        pig=0
-        sum=0
-        while(num_rolls>0):
-            outcomes=dice()
-            if(outcomes==1):
-                pig=pig+1
-            else:
-                sum=sum+outcomes
-            num_rolls=num_rolls-1
-        if(pig>0):
-            score=min(sum-num_rolls,pig)
-        else:
-            score=sum
-    return score
+        score=roll_dice(num_rolls,dice)
+        return score 
         
 def select_dice(score, opponent_score):
     total=0
