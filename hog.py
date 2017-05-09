@@ -10,21 +10,23 @@ GOAL_SCORE = 100
 def roll_dice(num_rolls, dice=six_sided):
     assert type(num_rolls) == int, 'num_rolls must be an integer.'
     assert num_rolls > 0, 'Must roll at least once.'
-    outcomes=0
     pig=0
+    outcomes=0
     sum=0
-    while(num_rolls>0):
-        outcomes=dice()
-        if(outcomes==1):
-            pig=pig+1
-        else:
-            sum=sum+outcomes
-        num_rolls=num_rolls-1
-    if(pig>0):
-        sum=min(sum-num_rolls,pig)
+    s=[]
+    for i in range(0,num_rolls):
+    	outcomes=dice()
+    	s.append(outcomes)
+    if(1 not in s):
+        for i in s:
+        	sum=sum+i
         return sum
     else:
-    	return sum 
+        for i in s:
+            if i==1:
+            	pig=pig+1
+        sum=sum+pig
+        return sum
         
 def take_turn(num_rolls,opponent_score,dice=six_sided):
     assert type(num_rolls) == int, 'num_rolls must be an integer.'
@@ -86,8 +88,6 @@ def play(strategy0, strategy1, score0=0, score1=0, goal=GOAL_SCORE):
             else:
                 dice=six_sided
             num_rolls=strategy0(score0,score1)
-            assert num_rolls>=0
-            assert num_rolls<=10
             if(num_rolls==0):
                 score0=take_turn(num_rolls,score0,dice)
                 tmp0=tmp0+score0
@@ -105,9 +105,7 @@ def play(strategy0, strategy1, score0=0, score1=0, goal=GOAL_SCORE):
                 dice=four_sided 
             else:
                 dice=six_sided
-            num_rolls=strategy1(score0,score1)
-            assert num_rolls>=0
-            assert num_rolls<=10
+            num_rolls=strategy1(score1,score0)
             if(num_rolls==0):
                 score1=take_turn(num_rolls,score1,dice)
                 tmp1=tmp1+score1
